@@ -1,0 +1,284 @@
+img{
+  display: block;
+  max-width: 100%;
+  height: auto; 
+}
+
+p{
+  padding: 0;
+  margin: 0;
+}
+
+
+a{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+body.show-modal .backdrop {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: initial;
+  }
+  
+  body.show-modal .modal {
+    transform: scale(1);
+  }
+  
+  .backdrop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+  
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out;
+  }
+  
+  .modal {
+    padding: 40px 24px;
+    border-radius: 18px;
+
+    width: 100%;
+
+    max-width: 270px;
+    max-height: 806px;
+
+    @media screen and (min-width: 375px) {
+        max-width: 335px;
+        max-height: 806px;
+    }
+    @media screen and (min-width: 768px) {
+        max-width: 579px;
+        height: 465px;
+    }
+   
+    background-color: #fff; 
+    border: 2px solid #111111;
+    
+    transform: scale(1.1);
+    transition: transform 200ms ease-in-out;
+    
+    
+    // max-width: 640px;
+    // min-height: 320px;
+
+    // box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    //   0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  }
+
+// .backdrop {
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+
+//     width: 100%;
+//     height: 100%;
+
+//     background-color: rgba(0, 0, 0, 0.2);
+
+//     opacity: 1;
+
+//     transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+//     // overflow-y: scroll;
+    
+    
+//     &.is-hidden {
+//         opacity: 0;
+
+//         pointer-events: none;
+//     }
+
+//     &.is-hidden .modal {
+//         transform: translate(-50%, -50%) scale(1.1);
+//     }
+// }
+
+.modal__button-close{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    padding: 0;
+    cursor: pointer;
+
+    background-color: #fff;
+    color: #111111;
+
+    border: none;
+}
+
+.modal__button-close:focus,
+.modal__button-close:hover {
+    color: #4F2EE8;
+}
+
+.modal__button-close-icon{
+    fill: currentColor;
+}
+
+.modal__book-card{
+  margin-bottom: 40px;
+}
+
+.img-thumb{
+  width: 287px;
+  height: 408px;
+
+  border: 1px solid #4F2EE8;
+  
+  margin-bottom: 14px;
+
+
+  @media screen and (min-width: 768px) {
+    width: 192px;
+    height: 281px;
+    margin-bottom: 0;
+  }
+
+}
+.book-image{
+  border-radius: 8px;
+  border: 1px solid #111111;
+
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+
+  
+
+}
+
+.book-title{
+  font-family: 'DM Sans';
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.125;
+  letter-spacing: -0.04em;
+  
+  color: #111111;
+
+  margin-bottom: 4px;
+
+  @media screen and (min-width: 768px) {
+    font-size: 24px;
+    line-height: 1.167;
+    margin-bottom: 8px;
+  }
+}
+
+.book-author{
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.1667;
+  letter-spacing: -0.04em;
+
+  color: #B4AFAF;
+
+  margin-bottom: 18px;
+
+  @media screen and (min-width: 768px) {
+    font-size: 14px;
+    line-height: 1.2857;
+    margin-bottom: 20px;
+  }
+
+}
+
+.book-description{
+  width: 287px;
+  height: 70px;
+  border: 1px solid #111111;
+  margin-bottom: 14px;
+
+  font-family: 'DM Sans';
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2857;
+  letter-spacing: -0.04em;
+  color: #111111;
+
+}
+
+.book-links{
+  display: flex;
+  gap: 20px;
+
+
+}
+
+
+.modal__book-card{
+  @media screen and (min-width: 768px) {
+    display:flex;
+    gap: 24px;
+  }
+}
+
+
+.modal__but-thumb{
+  display: flex;
+  justify-content: center;
+}
+.modal__button-shopping-list{
+  width: 211px;
+  height: 46px;
+  
+  border: 2px solid #4F2EE8;
+  border-radius: 40px;
+  background-color: #fff;
+
+  font-family: 'DM Sans';
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.2857;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #111111;
+  text-align: center;
+
+}
+
+.modal__button-shopping-list--remove{
+  width: 279px;
+
+}
+
+.modal__text{
+  margin-top: 8px;
+  font-family: 'DM Sans';
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: -0.04em;
+  
+  color: rgba(17, 17, 17, 0.5);
+
+}
+
+
+.visually-hidden {
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  margin: -1px;
+}
