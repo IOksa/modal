@@ -1,6 +1,10 @@
 import API from '../fetchTopBooks';
 import AP from '../fetchById';
 
+import imageAmazon from './images/amazon.jpg';
+import imageBookShop from './images/bookshop.jpg';
+import imageImage from './images/image1.jpg';
+
 const refs={
     ul: document.querySelector('.js-books-list'),
     closeModalBtn: document.querySelector('[data-action="close-modal"]'),
@@ -13,8 +17,11 @@ const refs={
 const STORAGE_KEY = 'bookId';
 let idBook=0;
 
-const arrShoppingList =
-  JSON.parse(localStorage.getItem('bookId')) || [];
+const savedData=localStorage.getItem(STORAGE_KEY);
+console.log('savedData=',savedData);
+let arrShoppingList=JSON.parse(savedData) || [];
+
+console.log('arrShoppingList= ', arrShoppingList);
 
 // console.log(refs.closeModalBtn);
 // console.log(refs.backdrop);
@@ -56,9 +63,9 @@ function onItemGalleryBooksClick(event){
     console.log(event.target.dataset.source);
     idBook=event.target.dataset.source;
 
-    const isBookInShoppingList=arrShoppingList.includes(idBook);
+    const isBookInShoppingList=arrShoppingList!==null?arrShoppingList.includes(idBook):false;
 
-    console.log('isBookInLocalStorage=',isBookInShoppingList);
+    console.log('isBookInShoppingList=',isBookInShoppingList);
 
     if(isBookInShoppingList){
       refs.shoppingListBtn.textContent='remove from the shopping list';
@@ -113,9 +120,6 @@ function onOpenModal() {
     }
   }
 
-  // function renderMarkupBookModal(arrayInfoBook){
-  //   createMarkupBookModal(arrayInfoBook);
-  // }
 
   function createMarkupBookModal(arrayInfoBook){
     //console.log('createMarkupBookModal: ', arrayInfoBook);
@@ -131,13 +135,13 @@ function onOpenModal() {
     <p class="book-description">${description}</p>
     <div class="book-links">
     <a href="${buy_links[0].url}" target="_blank" rel="noreferrer noopener">
-    <img src="./images/amazon.jpg" width="62px" height="19px"/>
+    <img src="${imageAmazon}" width="62px" height="19px"/>
     </a>
     <a href="${buy_links[1].url}" target="_blank" rel="noreferrer noopener">
-    <img src="./images/image1.jpg" width="33px" height="32px"/>
+    <img src="${imageImage}" width="33px" height="32px"/>
     </a>
     <a href="${buy_links[4].url}" target="_blank" rel="noreferrer noopener">
-    <img src="./images/bookshop.jpg" width="38px" height="36px"/>
+    <img src="${imageBookShop}" width="38px" height="36px"/>
     </a>
     </div>
     </div>`;
@@ -151,8 +155,9 @@ function onOpenModal() {
   function onShoppingListBtnClick(event){
     const indexBook=arrShoppingList.indexOf(idBook);
     if(indexBook!==-1){
-      arrShoppingList.splice(indexBook,indexBook);
-      localStorage.removeItem(STORAGE_KEY, JSON.stringify(arrShoppingList));
+      arrShoppingList.splice(indexBook,1);
+      localStorage.removeItem(STORAGE_KEY);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arrShoppingList));
     }
     else{
       arrShoppingList.push(idBook);
