@@ -12,6 +12,10 @@ const refs={
 
 const STORAGE_KEY = 'bookId';
 let idBook=0;
+
+const arrShoppingList =
+  JSON.parse(localStorage.getItem('bookId')) || [];
+
 // console.log(refs.closeModalBtn);
 // console.log(refs.backdrop);
 
@@ -52,11 +56,11 @@ function onItemGalleryBooksClick(event){
     console.log(event.target.dataset.source);
     idBook=event.target.dataset.source;
 
-    const isBookInLocalStorage=isInLocalStorage();
+    const isBookInShoppingList=arrShoppingList.includes(idBook);
 
-    console.log('isBookInLocalStorage=',isBookInLocalStorage);
+    console.log('isBookInLocalStorage=',isBookInShoppingList);
 
-    if(isBookInLocalStorage===idBook){
+    if(isBookInShoppingList){
       refs.shoppingListBtn.textContent='remove from the shopping list';
       refs.shoppingListBtn.classList.add('modal__button-shopping-list--remove');
       refs.text.classList.remove('visually-hidden');
@@ -145,17 +149,15 @@ function onOpenModal() {
 
 
   function onShoppingListBtnClick(event){
-    //const idBook=event.target.dataset.source;
-    const isBookInLocalStorage=isInLocalStorage();
-    if(isBookInLocalStorage===idBook){
-      localStorage.removeItem(STORAGE_KEY, idBook);
+    const indexBook=arrShoppingList.indexOf(idBook);
+    if(indexBook!==-1){
+      arrShoppingList.splice(indexBook,indexBook);
+      localStorage.removeItem(STORAGE_KEY, JSON.stringify(arrShoppingList));
     }
     else{
-      localStorage.setItem(STORAGE_KEY, idBook);
+      arrShoppingList.push(idBook);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arrShoppingList));
     }   
     onCloseModal();
   }
 
-  function isInLocalStorage(){
-    return localStorage.getItem(STORAGE_KEY, idBook);
-  }
