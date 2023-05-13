@@ -45,7 +45,7 @@ function createMarkupGalleryBooks(arr) {
         book_image_width,
         book_image_height,
         }) =>
-        `<li ><div class="thumb"><img class="gallery__image" src="${book_image}" alt="" width="${book_image_width}px" height="${book_image_height}px" data-source="${_id}"/><div></li>`
+        `<li ><div class="thumb"><img class="js-gallery-image" src="${book_image}" alt="" width="${book_image_width}px" height="${book_image_height}px" data-id="${_id}"/><div></li>`
       )
       .join("");
       // console.log(markup);
@@ -55,13 +55,13 @@ function createMarkupGalleryBooks(arr) {
 function onItemGalleryBooksClick(event){
     event.preventDefault();
 
-    const isImageGalleryEl=event.target.classList.contains('gallery__image');
+    const isImageGalleryEl=event.target.classList.contains('js-gallery-image');
     if(!isImageGalleryEl){
         return;
     }
 
-    console.log(event.target.dataset.source);
-    idBook=event.target.dataset.source;
+    console.log(event.target.dataset.id);
+    idBook=event.target.dataset.id;
 
     const isBookInShoppingList=arrShoppingList!==null?arrShoppingList.includes(idBook):false;
 
