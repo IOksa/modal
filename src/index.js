@@ -1,5 +1,7 @@
 import API from '../fetchTopBooks';
 import AP from '../fetchById';
+import APII from '../fetchAllCategories';
+import APP from '../fetchCategory';
 
 import imageAmazon from './images/amazon.jpg';
 import imageBookShop from './images/bookshop.jpg';
@@ -33,10 +35,14 @@ refs.shoppingListBtn.addEventListener('click', onShoppingListBtnClick);
 
 ///////////////////////////////////////////////////////////////////////////////////////
 API.fetchTopBooks().then(createMarkupGalleryBooks);
+// //.catch(err=>console.log('Ooops! Something went wrong!'));
+
+// APII.fetchAllCategories().then(createMarkupGalleryBooks);
 //.catch(err=>console.log('Ooops! Something went wrong!'));
+//APP.fetchCategory('Advice How-To and Miscellaneous').then(createMarkupGalleryBooks);
 
 function createMarkupGalleryBooks(arr) {
-    // console.log('createMarkupGalleryBooks',arr);
+    console.log('createMarkupGalleryBooks',arr);
     // console.log(arr[0].books[0]);
     const markup=arr[0].books.map(
         ({
