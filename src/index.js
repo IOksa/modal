@@ -17,7 +17,7 @@ const refs={
 }
 
 const STORAGE_KEY = 'info-shopping-list';
-let idBook=0;
+
 let currentBookInfo={};
 
 const savedData=localStorage.getItem(STORAGE_KEY);
@@ -74,7 +74,7 @@ function onItemGalleryBooksClick(event){
 
     const isBookInShoppingList=arrShoppingList.length===0
     ?false
-    :arrShoppingList.find(book=>book.currentBookId===idBook);
+    :arrShoppingList.find(book=>book.bookId===idBook);
 
     //console.log('isBookInShoppingList=',isBookInShoppingList);
 
@@ -181,7 +181,7 @@ function onOpenModal() {
     console.log('onShoppingListBtnClick arrShoppingList=', arrShoppingList);
     console.log('onShoppingListBtnClick currentBookInfo=', currentBookInfo.bookAuthor);
     
-    const indexBook=arrShoppingList.findIndex(book=>book.currentBookId===currentBookInfo.bookId);
+    const indexBook=arrShoppingList.findIndex(book=>book.bookId===currentBookInfo.bookId);
       
     console.log('onShoppingListBtnClick indexBook=', indexBook);
 
