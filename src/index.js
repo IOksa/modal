@@ -13,14 +13,15 @@ const refs={
     backdrop: document.querySelector('.js-backdrop'),
     bookCard: document.querySelector('.js-book-card'),
     shoppingListBtn: document.querySelector('[data-action="shopping-list-modal"]'),
-    text: document.querySelector('.js-modal-text'),
+    //text: document.querySelector('.js-modal-text'),
 }
 
-const STORAGE_KEY = 'bookId';
+const STORAGE_KEY = 'info-shopping-list';
 let idBook=0;
+let currentBookInfo={};
 
 const savedData=localStorage.getItem(STORAGE_KEY);
-console.log('savedData=',savedData);
+//console.log('savedData=',savedData);
 let arrShoppingList=JSON.parse(savedData) || [];
 
 console.log('arrShoppingList= ', arrShoppingList);
@@ -42,7 +43,7 @@ API.fetchTopBooks().then(createMarkupGalleryBooks);
 //APP.fetchCategory('Advice How-To and Miscellaneous').then(createMarkupGalleryBooks);
 
 function createMarkupGalleryBooks(arr) {
-    console.log('createMarkupGalleryBooks',arr);
+    //console.log('createMarkupGalleryBooks',arr);
     // console.log(arr[0].books[0]);
     const markup=arr[0].books.map(
         ({
@@ -66,21 +67,25 @@ function onItemGalleryBooksClick(event){
         return;
     }
 
-    console.log(event.target.dataset.id);
+   // console.log(event.target.dataset.id);
     idBook=event.target.dataset.id;
 
-    const isBookInShoppingList=arrShoppingList!==null?arrShoppingList.includes(idBook):false;
+    // const isBookInShoppingList=arrShoppingList!==null?arrShoppingList.includes(idBook):false;
 
-    console.log('isBookInShoppingList=',isBookInShoppingList);
+    const isBookInShoppingList=arrShoppingList.length===0
+    ?false
+    :arrShoppingList.find(book=>book.currentBookId===idBook);
+
+    //console.log('isBookInShoppingList=',isBookInShoppingList);
 
     if(isBookInShoppingList){
       refs.shoppingListBtn.textContent='remove from the shopping list';
       refs.shoppingListBtn.classList.add('modal__button-shopping-list--remove');
-      refs.text.classList.remove('visually-hidden');
+     // refs.text.classList.remove('visually-hidden');
     }
     else{
       refs.shoppingListBtn.textContent='add to shopping list';
-      refs.text.classList.add('visually-hidden');
+      //refs.text.classList.add('visually-hidden');
       refs.shoppingListBtn.classList.remove('modal__button-shopping-list--remove');
     }
     refs.bookCard.innerHTML='';
@@ -130,7 +135,19 @@ function onOpenModal() {
   function createMarkupBookModal(arrayInfoBook){
     //console.log('createMarkupBookModal: ', arrayInfoBook);
 
-    const {book_image, author, title, description,buy_links, _id}=arrayInfoBook;
+   const {book_image, author, title, description,buy_links, _id, list_name}=arrayInfoBook;
+
+    currentBookInfo.bookId=_id;
+    currentBookInfo.bookAuthor=author;
+    currentBookInfo.bookTitle=title;
+    currentBookInfo.bookDescription=description;
+    currentBookInfo.bookCategory=list_name;
+    currentBookInfo.bookImage=book_image;
+    currentBookInfo.bookAmazon=buy_links[0].url;
+    currentBookInfo.bookOpenBook=buy_links[1].url;
+    currentBookInfo.bookShop=buy_links[4].url;
+
+    console.log('currentBookInfo', currentBookInfo);
     
     const markup=
     `<div class="img-thumb"><img class="book-image"" src="${book_image}" alt="${title}" loading="lazy" data-source="${_id}"/>
@@ -159,16 +176,27 @@ function onOpenModal() {
 
 
   function onShoppingListBtnClick(event){
-    const indexBook=arrShoppingList.indexOf(idBook);
+    //const indexBook=arrShoppingList.indexOf(idBook);
+
+    console.log('onShoppingListBtnClick arrShoppingList=', arrShoppingList);
+    console.log('onShoppingListBtnClick currentBookInfo=', currentBookInfo.bookAuthor);
+    
+    const indexBook=arrShoppingList.findIndex(book=>book.currentBookId===currentBookInfo.bookId);
+      
+    console.log('onShoppingListBtnClick indexBook=', indexBook);
+
     if(indexBook!==-1){
-      arrShoppingList.splice(indexBook,1);
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(arrShoppingList));
+        arrShoppingList.splice(indexBook,1);
+        console.log('onShoppingListBtnClick  remove arrShoppingList=', arrShoppingList);
+       localStorage.removeItem(STORAGE_KEY);
+       localStorage.setItem(STORAGE_KEY, JSON.stringify(arrShoppingList));
     }
     else{
-      arrShoppingList.push(idBook);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(arrShoppingList));
+        arrShoppingList.push({...currentBookInfo});
+      
+        console.log('onShoppingListBtnClick add arrShoppingList=', arrShoppingList);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(arrShoppingList));
     }   
-    onCloseModal();
+      onCloseModal();
   }
 
